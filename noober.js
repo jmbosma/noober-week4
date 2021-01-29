@@ -6,10 +6,10 @@ function renderRide(ride, levelOfService){
   for(let i=0; i<NumLegs; i++) {
     
     leg = ride[i]
-    GenerateFullName(leg)
-    PassengerFill(levelOfService)
-    passengerLabel(leg)
-    Border(levelOfService)
+    GenerateFullName(leg) // generates full name of passenger
+    PassengerFill(levelOfService) // determines if gray or purple label fill based on level of service
+    NumOfPassengers(leg) //returns the variable NumPassengers for total passengers in each leg
+    Border(levelOfService) //determines if gray or purple border based on level of service
 
     passengerPhone = `${leg.passengerDetails.phoneNumber}`
     passengerPickupAddressLine1 = `${leg.pickupLocation.address}`
@@ -43,7 +43,11 @@ function renderRide(ride, levelOfService){
             <h2 class="text-2xl py-1">${passengerName}</h2>
             <p class="font-bold text-gray-600">${passengerPhone}</p>
           </div>
-          <div class="w-1/2 text-right"> ${passengerHTML} </div>
+          <div class="w-1/2 text-right"> 
+            <span class="rounded-xl ${passengerColor} text-white p-2">
+             ${NumPassengers} passengers
+            </span>            
+          </div>
         </div>
         <div class="mt-4 flex">
           <div class="w-1/2">
@@ -84,20 +88,14 @@ function GenerateFullName(leg){
 return passengerName 
 }
 
-//create function that generates the HTML string for the passenger item based on Level of service and number of passenger 
+//create function that returns the number of passengers in a leg
 
-function passengerLabel(leg){
+function NumOfPassengers(leg){
   NumPassengers = `${leg.numberOfPassengers}`
-
-  if (NumPassengers > 1 || levelOfService == "Noober Purple") {
-    passengerHTML = `<span class="rounded-xl ${passengerColor} text-white p-2"> ${NumPassengers} passengers </span>`
-  } 
-  else {passengerHTML = `${NumPassengers} passengers`
-  }
-  return passengerHTML
+  return NumPassengers
 }
 
-//create function that generates the HTML string for the purple border if noober purple requested
+//create function that determines the border color based on level of service (is it noober purple?)
 
 function Border(levelOfService){
   if (levelOfService == "Noober Purple"){
@@ -109,7 +107,7 @@ function Border(levelOfService){
   return borderColor
 }
 
-//create function that generates the HTML string for the purple fill passenger text if noober purple requested
+//create function that determines the label color based on level of service (is it noober purple?)
 
 function PassengerFill(levelOfService){
   if (levelOfService == "Noober Purple"){
